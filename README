@@ -4,7 +4,10 @@ This repo contains the opencontrail related files.
 3. Run ./stack.sh
 
 
-All these files are taken from the repo https://github.com/doude/devstack and modified a bit.
+Please note that all these files are originally from the repo https://github.com/dsetia/devstack.
+Only the files related to contrail are taken from the above repo. Latest devstack can be cloned from 
+https://github.com/openstack-dev/devstack.git
+The goal is to compile contrail with the latest version of devstack.
 
 lib/neutron_thirdparty/contrail is the main file which downloads the opencontrail, builds it and applies few patches.
 
@@ -15,5 +18,36 @@ devstack/contrail/vrouter.patch
 
 Please see the file lib/neutron_thirdparty/contrail for more information.
 
+Below is the tree of the files present in this repo
 
+├── contrail
+│   ├── cassandra-env.sh.patch
+│   ├── contrail_config_templates.py
+│   ├── etc
+│   │   └── redis.conf
+│   ├── localrc-cw-compute
+│   ├── localrc-multinode-compute
+│   ├── localrc-multinode-server
+│   ├── localrc-single
+│   ├── net_policy_join.py
+│   ├── neutron_v3.patch
+│   ├── neutron_v4.patch
+│   ├── neutron_v5.patch
+│   ├── nova_v3.patch
+│   ├── nova_v4.patch
+│   ├── provision_vrouter.py
+│   ├── README
+│   ├── redis.conf.patch
+│   ├── setup_contrail.py
+│   ├── test_network_complex.sh
+│   ├── test_network.sh
+│   ├── vnc_contrail.patch
+│   └── vrouter.patch
+├── install_devstack.sh
+├── lib
+│   ├── neutron_plugins
+│   │   └── contrail
+│   └── neutron_thirdparty
+│       └── contrail
+└── README
 
