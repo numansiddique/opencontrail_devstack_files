@@ -1,4 +1,4 @@
-This repo contains the opencontrail related files.
+This repo contains the opencontrail related files to install opencontrail with devstack
 1. These files needs to be copied into the devstack directory 
 2. configure localrc and enable opencontrail
 3. Run ./stack.sh
@@ -7,7 +7,7 @@ This repo contains the opencontrail related files.
 Please note that all these files are originally from the repo https://github.com/dsetia/devstack.
 Only the files related to contrail are taken from the above repo. Latest devstack can be cloned from 
 https://github.com/openstack-dev/devstack.git
-The goal is to compile contrail with the latest version of devstack.
+The goal is to compile and install contrail with the latest version of devstack.
 
 lib/neutron_thirdparty/contrail is the main file which downloads the opencontrail, builds it and applies few patches.
 
