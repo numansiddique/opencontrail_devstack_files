@@ -89,8 +89,9 @@ function install_contrail() {
       	# clear the cassandra database. Else neutron net-create will fail with the error
         # tenant name already present in the database.
 
-	#doing the crude way. Need to find a better way to delete the db files
-        sudo rm -rf /var/lib/cassandra/
+	#doing the crude way. Need to find a better way to delete the db files.
+	#commenting the below lines. Need to find a better way.
+        #sudo rm -rf /var/lib/cassandra/
 	sleep 1
 
     fi
