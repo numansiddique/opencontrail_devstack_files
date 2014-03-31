@@ -1,0 +1,19 @@
+This repo contains the opencontrail related files.
+1. These files needs to be copied into the devstack directory 
+2. configure localrc and enable opencontrail
+3. Run ./stack.sh
+
+
+All these files are taken from the repo https://github.com/doude/devstack and modified a bit.
+
+lib/neutron_thirdparty/contrail is the main file which downloads the opencontrail, builds it and applies few patches.
+
+The patches it applies are:
+devstack/contrail/neutron_v5.patch
+devstack/contrail/vnc_contrail.patch
+devstack/contrail/vrouter.patch
+
+Please see the file lib/neutron_thirdparty/contrail for more information.
+
+
+

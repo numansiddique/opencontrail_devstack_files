@@ -1,0 +1,21 @@
+--- neutron/plugins/juniper/contrail/contrailplugin.py	2014-03-29 11:02:12.525779992 +0000
++++ neutron/plugins/juniper/contrail/contrailplugin.py	2014-03-29 17:28:51.977782356 +0000
+@@ -73,7 +73,7 @@
+     # agent extension is added to avoid return 404 for get_agents
+     supported_extension_aliases = ["ipam", "policy", "security-group",
+                                    "router", "route-table", "port-security",
+-                                   "binding", "agent"]
++                                   "binding", "agent","quotas"]
+     _cfgdb = None
+     _args = None
+     _tenant_id_dict = {}
+--- setup.cfg
++++ setup.cfg
+@@ -63,6 +63,7 @@ data_files =
+     etc/neutron/plugins/openvswitch = etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+     etc/neutron/plugins/plumgrid = etc/neutron/plugins/plumgrid/plumgrid.ini
+     etc/neutron/plugins/ryu = etc/neutron/plugins/ryu/ryu.ini
++    etc/neutron/plugins/juniper/contrail/ContrailPlugin = etc/neutron/plugins/juniper/contrail/ContrailPlugin.ini
+ scripts =
+     bin/quantum-rootwrap
+     bin/neutron-rootwrap

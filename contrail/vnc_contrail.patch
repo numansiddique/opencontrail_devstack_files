@@ -1,0 +1,14 @@
+--- controller/src/config/vnc_openstack/vnc_openstack/__init__.py	2014-03-26 18:03:10.000000000 +0000
++++ controller/src/config/vnc_openstack/vnc_openstack/__init__.py	2014-03-29 18:06:03.693779975 +0000
+@@ -35,7 +35,10 @@
+         self._auth_port = conf_sections.get('KEYSTONE', 'auth_port')
+         self._auth_user = conf_sections.get('KEYSTONE', 'admin_user')
+         self._auth_passwd = conf_sections.get('KEYSTONE', 'admin_password')
+-        self._admin_token = conf_sections.get('KEYSTONE', 'admin_token')
++	try:
++            self._admin_token = conf_sections.get('KEYSTONE', 'admin_token')
++	except Exception:
++	    self._admin_token = None
+         self._auth_tenant = conf_sections.get('KEYSTONE', 'admin_tenant_name')
+         auth_proto = conf_sections.get('KEYSTONE', 'auth_protocol')
+         auth_url = "%s://%s:%s/v2.0" % (auth_proto, self._auth_host, self._auth_port)

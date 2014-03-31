@@ -1,0 +1,14 @@
+--- vr_host_interface.c	2014-03-31 12:06:16.725397095 +0530
++++ vr_host_interface.c	2014-03-31 12:05:57.635437997 +0530
+@@ -27,6 +27,11 @@
+ #include "vr_linux.h"
+ #include "vr_os.h"
+ 
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0))
++#include <linux/types.h>
++typedef u64 netdev_features_t;
++#endif
++
+ extern int vhost_init(void);
+ extern void vhost_exit(void);
+ extern void vhost_if_add(struct vr_interface *);

@@ -1,0 +1,115 @@
+This fork of devstack brings up all in one openstack + opencontrail
+system. Run stack.sh as usual to setup OpenStack + contrail modules.
+
+Contrail directory also includes some sample localrc files.
+1) localrc-single: for all-in-one system 
+2) localrc-multinode-server: master host on a multi node system. 
+3) localrc-multinode-compute: all compute nodes. 
+
+Notes:
+1) You will need to install kernel-devel package to compile OpenContrail
+   Vrouter module
+2) Stack.sh will create an additional screen "contrail" for contrail modules.
+3) This fork includes Neutron and Nova patches. These patches have been
+   seperately submitted for review.
+4) OpenStack + OpenContrail has been tested on FC17, Ubuntu 12.04 and 13.10
+5) Repo tool uses SSH by default. Use ssh-agent to forward keys to target 
+   running devstack or upload host's SSH keys to the github account.
+   Set CONTRAIL_REPO_PROTO to https to use HTTPS instead. This line is 
+   commented out in sample localrc file
+6) Copy sample localrc-single as localrc for a single node system. Copy
+   localrc-multinode-server and localrc-multinode-compute as localrc on 
+   master and compute nodes respectively for a multi-node system.
+7) After running unstack.sh, run ifconfig and verify IP address has been
+   restored on PHYSICAL_INTERFACE and vhost0 interface is gone. Sometimes
+   you might see "ERROR: Module vrouter is in use" after running unstack.sh
+   which means interface cleanup couldn't be done since vrouter is busy and
+   could not be uninstalled. Repeat unstack.sh untill the interfaces are
+   restored to original state.
+8) Protocol for openstack bits is also SSH by default. Uncomment out 
+   GIT_BASE line to use https instead
+
+Change the following in localrc to suit your deployment:
+ PHYSICAL_INTERFACE -- external interface Vrouter should bind to
+ SERVICE_HOST -- IP address of master
+
+Steps for basic Ubuntu VM image
+-------------------------------
+1) ssh as ubuntu to target. Password should be ubuntu
+2) Add following line to /etc/hosts to avoid
+   "sudo: unable to resolve host ubuntu" error
+   127.0.1.1 ubuntu
+3) Get following packages. You may need to change linux header version
+   package based on "uname -a" output
+   sudo apt-get update
+   sudo apt-get install git-core
+   sudo aptitude install build-essential
+   sudo apt-get install pkg-config 
+   sudo apt-get install linux-headers-3.2.0-35-virtual (for vrouter.ko)
+4) verify ssh to github is working
+   ssh -T git@github.com
+5) download devstack (should have already done this)
+   git clone git@github.com:dsetia/devstack.git
+6) copy sample localrc as mentioned above. Edit localrc 
+   PHYSICAL_INTERFACE/SERVICE_HOST/... to match your setup
+
+   cd devstack
+   cp contrail/localrc-single localrc
+   vi localrc  # edit PHYSICAL_INTERFACE
+7) ./stack.sh
+
+Steps for basic Fedora host
+---------------------------
+I perform these steps on a minimal Fedora host. You may not
+need these steps and will depend upon your starting image.
+
+1) sudo yum -y install git-core patch vim
+2) sudo yum -y install kernel-devel-3.6.6-1
+   My "uname -a" shows "Linux a6s34 3.6.6-1.fc17.x86_64"
+3) sudo yum -y upgrade libtasn1
+4) sudo yum -y install python-pip
+5) sudo easy_install -U distribute
+6) verify ssh to github is working
+   ssh -T git@github.com
+7) download devstack (should have already done this)
+   git clone git@github.com:dsetia/devstack.git
+8) copy sample localrc as mentioned above. Edit localrc 
+   PHYSICAL_INTERFACE/SERVICE_HOST/... to match your setup
+
+   cd devstack
+   cp contrail/localrc-single localrc
+   vi localrc  # edit PHYSICAL_INTERFACE
+9) ./stack.sh
+
+
+Software Gateway support
+------------------------
+
+Software gateway provides internet connectivity to virtual machines. It
+supports routing between virtual-network and external public-networks. The
+Simple Gateway is a restricted implementation of gateway. The features 
+supported are,
+    - A compute node provides Simple Gateway functionality for a single
+      virtual-network
+    - A virtual-network can ideally have multiple subnets. But, gateway 
+      supports only one subnet per virtual-network
+    - Relies on the networking stack of host operating-system to route packets
+      between public-network and virtual-network
+
+Configuration:
+ Following parameters must be configured in localrc for Simple Gateway:
+
+ CONTRAIL_VGW_PUBLIC_NETWORK 
+    Specifies FQDN of the routing-instance that needs public access. 
+    Example: If domain=default-domain, user=admin and vm=public, FQDN is 
+             default-domain:admin:public:public
+ CONTRAIL_VGW_PUBLIC_SUBNET
+    Specifies the subnet configured for the virtual-network.
+    Example: 192.168.1.0/24
+ CONTRAIL_VGW_INTERFACE 
+    A tap interface is created with this name. The interface is added to
+    routing-instance of virtual-network. Packets to/from virtual-network 
+    use this interface (Example: vgw)
+
+Please see detailed instructions at:
+https://github.com/Juniper/contrail-controller/wiki/Simple-Gateway
