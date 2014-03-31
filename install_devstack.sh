@@ -5,7 +5,8 @@ cd
 git clone https://github.com/openstack-dev/devstack.git
 
 #copy the contrail related files
-cp -rf contrail_devstack_files/ devstack/
+cp -rf opencontrail_devstack_files/contrail devstack/
+cp -rf opencontrail_devstack_files/lib devstack/
 
 cd devstack
 cp /tmp/localrc .
