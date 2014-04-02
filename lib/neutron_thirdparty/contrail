@@ -100,7 +100,8 @@ function install_contrail() {
 
     fi
 
-    apply_neutron_patch
+    # commenting applying the neutron patch as it is addressed in the code
+    # apply_neutron_patch
 
     # install contrail modules
     echo "Installing contrail modules"
